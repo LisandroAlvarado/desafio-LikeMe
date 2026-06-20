@@ -1,0 +1,11 @@
+{
+  "watch": ["index.js"],
+  "ext": "js,mjs",
+  "ignore": [
+    "node_modules/",
+    ".git/",
+    ".env",
+    "package.json",
+    "package-lock.json"
+  ]
+}
