@@ -1,7 +1,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { obtenerPosts, agregarPost } from "./consultas.js";
+import {
+  obtenerPosts,
+  agregarPost,
+  likePost,
+  eliminarPost,
+} from "./consultas.js";
 
 // Carga las variables de entorno del archivo .env
 dotenv.config();
@@ -51,6 +56,58 @@ app.post("/posts", async (req, res) => {
 
     res.status(500).json({
       error: "Error interno del servidor",
+    });
+  }
+});
+
+// Agrega un nuevo like y lo almacena en la base de datos
+app.put("/posts/like/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await likePost(id);
+
+    res.status(200).json({
+      mensaje: "Like agregado con exito",
+      post,
+    });
+  } catch (error) {
+    console.error(error);
+
+    if (error.message === "Post no encontrado") {
+      return res.status(404).json({
+        error: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
+// Elimina un post de la base de datos
+app.delete("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await eliminarPost(id);
+
+    res.status(200).json({
+      mensaje: "Post eliminado con exito",
+      post,
+    });
+  } catch (error) {
+    console.error(error);
+
+    if (error.message === "Post no encontrado") {
+      return res.status(404).json({
+        error: error.message,
+      });
+    }
+
+    res.status(500).json({
+      error: error.message,
     });
   }
 });

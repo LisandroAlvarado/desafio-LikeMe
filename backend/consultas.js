@@ -1,4 +1,4 @@
-import { pool } from "./db.js";
+import { pool } from "./database/db.js";
 
 // Obtiene todos los posts de la base de datos ordenados del más reciente al más antiguo
 export const obtenerPosts = async () => {
