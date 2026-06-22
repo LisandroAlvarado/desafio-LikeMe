@@ -1,10 +1,13 @@
 import { pool } from "./db.js";
 
-// Obtiene todos los posts de la base de datos ordenados del más reciente al más antiguo
 export const obtenerPost = async () => {
-  const { rows } = await pool.query("SELECT * FROM posts ORDER BY id DESC");
+  try {
+    const { rows } = await pool.query("SELECT * FROM posts ORDER BY id DESC");
 
-  return rows;
+    return rows;
+  } catch (error) {
+    throw new Error(`Error al obtener los posts: ${error.message}`);
+  }
 };
 
 // Inserta un nuevo post en la base de datos y devuelve el registro creado
