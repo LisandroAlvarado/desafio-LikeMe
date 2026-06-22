@@ -30,6 +30,7 @@ RETURNING *;
   return rows[0];
 };
 
+// Incrementa en 1 la cantidad de likes de un post según su id
 export const likePost = async (id) => {
   const consulta = `
 UPDATE posts
