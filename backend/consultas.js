@@ -1,5 +1,6 @@
 import { pool } from "./db.js";
 
+// Obtiene todos los posts de la base de datos ordenados del más reciente al más antiguo
 export const obtenerPost = async () => {
   try {
     const { rows } = await pool.query("SELECT * FROM posts ORDER BY id DESC");
@@ -27,4 +28,25 @@ RETURNING *;
   console.log("Post agregado", rows[0]);
 
   return rows[0];
+};
+
+export const likePost = async (id) => {
+  const consulta = `
+UPDATE posts
+SET likes = likes + 1
+WHERE id = $1
+RETURNING *;
+`;
+
+  const values = [id];
+
+  const resultado = await pool.query(consulta, values);
+
+  if (resultado.rowCount === 0) {
+    throw new Error("Post no encontrado");
+  }
+
+  console.log("Like agregado");
+
+  return resultado.rows[0];
 };
