@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { obtenerPost, agregarPost } from "./consultas.js";
+import { obtenerPosts, agregarPost } from "./consultas.js";
 
 // Carga las variables de entorno del archivo .env
 dotenv.config();
@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3000;
 // Devuelve todos los posts almacenados en la base de datos
 app.get("/posts", async (req, res) => {
   try {
-    const posts = await obtenerPost();
+    const posts = await obtenerPosts();
 
     res.json(posts);
   } catch (error) {
